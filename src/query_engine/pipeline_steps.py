@@ -1,9 +1,9 @@
 import operator
 from abc import ABC, abstractmethod
 from collections import defaultdict
-from collections.abc import Callable
+from collections.abc import Callable, Sequence
 from dataclasses import dataclass, field
-from typing import Any, cast, override
+from typing import Any, ClassVar, override
 
 from step_tracer.models import (
     StatementExecution,
@@ -20,21 +20,21 @@ from query_engine.utils import get_field_value
 class QueryCondition:
     """Represents a single WHERE query condition."""
 
+    op_map: ClassVar[dict[str, Callable[[Any, Any], bool]]] = {
+        "==": operator.eq,
+        "!=": operator.ne,
+        "<": operator.lt,
+        "<=": operator.le,
+        ">": operator.gt,
+        ">=": operator.ge,
+        "in": lambda x, y: x in y,
+        "not_in": lambda x, y: x not in y,
+    }
+
     def __init__(self, field: str, op: str, value: Any):
         self.field = field
         self.op = op
         self.value = value
-
-        self.op_map: dict[str, Callable[[Any, Any], bool]] = {
-            "==": operator.eq,
-            "!=": operator.ne,
-            "<": operator.lt,
-            "<=": operator.le,
-            ">": operator.gt,
-            ">=": operator.ge,
-            "in": lambda x, y: x in y,
-            "not_in": lambda x, y: x not in y,
-        }
 
     def evaluate(self, obj: StatementExecution | VariableSnapshot) -> bool:
         """Evaluate condition against an object."""
@@ -102,7 +102,7 @@ class ReduceStep(PipelineStepBase):
         reduced_result: list[Any] = []
         for item in items:
             if isinstance(item, list):
-                reduced_result.extend(cast(list[Any], item))
+                reduced_result.extend(item)
             else:
                 reduced_result.append(item)
         return reduced_result
@@ -211,7 +211,7 @@ class JoinResult:
 
 @dataclass
 class JoinStep(PipelineStepBase):
-    other_items: list[Any]
+    other_items: Sequence[Any]
     conditions: Callable[[Any, Any], bool]
     left_alias: str
     right_alias: str

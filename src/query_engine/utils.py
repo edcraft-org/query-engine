@@ -18,11 +18,11 @@ def get_field_value(obj: Any, field_path: str) -> Any:
             if curr_obj is None:
                 # For outer joins, return None if alias doesn't exist or is None
                 return None
-        elif isinstance(curr_obj, object) and hasattr(curr_obj, field):
-            curr_obj = getattr(curr_obj, field)
         elif isinstance(curr_obj, dict) and field in curr_obj:
-            curr_obj = curr_obj[field]  # type: ignore
+            curr_obj = curr_obj[field]
+        elif hasattr(curr_obj, field):
+            curr_obj = getattr(curr_obj, field)
         else:
             raise InvalidFieldError(field)
 
-    return curr_obj  # type: ignore
+    return curr_obj

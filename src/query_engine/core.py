@@ -1,4 +1,4 @@
-from collections.abc import Callable
+from collections.abc import Callable, Sequence
 from typing import Any
 
 from step_tracer.models import (
@@ -42,7 +42,7 @@ class Query:
         field: str | None = None,
         op: str = "==",
         value: Any = None,
-        **kwargs: dict[str, Any],
+        **kwargs: Any,
     ) -> "Query":
         """Add a WHERE condition."""
         if field is not None:
@@ -121,7 +121,7 @@ class Query:
 
     def inner_join(
         self,
-        other_items: list[Any],
+        other_items: Sequence[Any],
         conditions: Callable[[Any, Any], bool],
         left_alias: str,
         right_alias: str,
@@ -139,7 +139,7 @@ class Query:
 
     def left_join(
         self,
-        other_items: list[Any],
+        other_items: Sequence[Any],
         conditions: Callable[[Any, Any], bool],
         left_alias: str,
         right_alias: str,
@@ -157,7 +157,7 @@ class Query:
 
     def right_join(
         self,
-        other_items: list[Any],
+        other_items: Sequence[Any],
         conditions: Callable[[Any, Any], bool],
         left_alias: str,
         right_alias: str,
@@ -175,7 +175,7 @@ class Query:
 
     def full_outer_join(
         self,
-        other_items: list[Any],
+        other_items: Sequence[Any],
         conditions: Callable[[Any, Any], bool],
         left_alias: str,
         right_alias: str,

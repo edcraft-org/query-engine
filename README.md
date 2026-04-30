@@ -13,8 +13,6 @@ A chainable query builder for execution trace data. Query Engine provides a SQL-
 
 ## Installation
 
-## Installation
-
 ### From GitHub
 
 Using uv:
@@ -34,33 +32,6 @@ For a specific branch, tag, or commit:
 ```bash
 uv add git+https://github.com/edcraft-org/query-engine.git@branch-name
 ```
-
-### From Local Source
-
-Using uv:
-
-```bash
-uv add /path/to/query-engine
-```
-
-Or in editable mode for development:
-
-```bash
-uv pip install -e /path/to/query-engine
-```
-
-Using pip:
-
-```bash
-pip install /path/to/query-engine
-```
-
-Or in editable mode for development:
-
-```bash
-pip install -e /path/to/query-engine
-```
-
 
 ## Quick Start
 
