@@ -33,6 +33,26 @@ For a specific branch, tag, or commit:
 uv add git+https://github.com/edcraft-org/query-engine.git@branch-name
 ```
 
+## Browser Wheel Artifact
+
+This package is pure Python, so the same wheel can be consumed by a browser runtime such as Pyodide.
+
+- GitHub Actions: run the `browser-wheel` workflow manually to generate a downloadable wheel artifact
+- GitHub Releases: publishing a release attaches the built wheel as a release asset
+
+Expected output:
+
+```bash
+dist/query_engine-<version>-py3-none-any.whl
+```
+
+For downstream browser apps:
+
+1. Download this wheel from the workflow artifact or release asset.
+2. Install or register the `step-tracer` browser wheel before installing `query-engine`.
+3. Place both wheels under the app's browser runtime wheel directory, for example `public/pyodide/wheels/`.
+4. Register both wheel URLs in the consuming app's runtime config.
+
 ## Quick Start
 
 ```python
